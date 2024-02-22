@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+// Structure pour représenter un fruit
+struct Fruit {
+    char nom[20];  // Nom du fruit
+    int posX;      // Position en X
+    int posY;      // Position en Y
+};
+
+// Fonction pour positionner aléatoirement les fruits dans la pastèque
+void positionnerFruits(struct Fruit fruits[], int nbFruits, int taillePastèqueX, int taillePastèqueY) {
+    srand(time(NULL));  // Initialisation du générateur de nombres aléatoires avec le temps actuel
+
+    for (int i = 0; i < nbFruits; i++) {
+        fruits[i].posX = rand() % taillePastèqueX;  // Position aléatoire en X
+        fruits[i].posY = rand() % taillePastèqueY;  // Position aléatoire en Y
+    }
+}
+
+int main() {
+    // Déclaration des constantes
+    const int taillePastèqueX = 10;  // Largeur de la pastèque
+    const int taillePastèqueY = 10;  // Hauteur de la pastèque
+    const int nbFruits = 7;          // Nombre de fruits
+
+    // Déclaration et initialisation des fruits
+    struct Fruit fruits[nbFruits] = {
+      {"Pastèque", 0, 0},  // Exemple avec une pastèque positionnée en (0, 0)
+      {"annas", 0, 0},    // Exemple avec une banane non positionnée
+      {"orange", 0, 0},     // Exemple avec une orange non positionnée
+      {"Pomme", 0, 0},     // Exemple avec une pomme non positionnée
+      {"peche", 0, 0},    // Exemple avec une orange non positionnée
+      {"kiwi", 0, 0},    // Exemple avec un Kiwi non positionné
+      {"fraise", 0, 0},   // Exemple avec un fraise non positionné
+        
+
+    };
+
+    // Positionner aléatoirement les fruits dans la pastèque
+    positionnerFruits(fruits, nbFruits, taillePastèqueX, taillePastèqueY);
+
+    // Affichage des fruits positionnés
+    printf("Fruits positionnés :\n");
+    for (int i = 0; i < nbFruits; i++) {
+        printf("%s - Position : (%d, %d)\n", fruits[i].nom, fruits[i].posX, fruits[i].posY);
+    }
+
+    return 0;
+}
