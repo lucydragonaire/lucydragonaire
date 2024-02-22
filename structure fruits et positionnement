@@ -1,0 +1,85 @@
+#include <stdio.h>
+
+// Structure pour représenter un fruit
+struct Fruit {
+    char nom[20];  // Nom du fruit
+    int taille;    // Taille du fruit en unités arbitraires
+    int posX;      // Position en X
+    int posY;      // Position en Y
+    int chute;     // Indique si le fruit est en train de chuter (1 pour vrai, 0 pour faux)
+};
+
+// Tailles prédéfinies pour chaque type de fruit 
+const int TAILLE_PASTEQUE = 10;
+const int TAILLE_ANANAS = 8;
+const int TAILLE_ORANGE = 6;
+const int TAILLE_POMME = 5;
+const int TAILLE_PEACHE = 4;
+const int TAILLE_KIWI = 3;
+const int TAILLE_FRAISE = 2;
+
+// Fonction pour initialiser la position initiale des fruits en haut au milieu de la pastèque
+void positionInitiale(struct Fruit *fruit, int taillePastèqueX, int taillePastèqueY) {
+    fruit->posX = taillePastèqueX / 2; // Position en X au milieu de la pastèque
+    fruit->posY = 0;                    // Position en Y tout en haut de la pastèque
+}
+
+// Fonction pour simuler la chute d'un fruit
+void chuteFruit(struct Fruit *fruit, int vitesseChute) {
+    if (fruit->chute) {
+        // Déplacer le fruit vers le bas en fonction de la vitesse de chute
+        fruit->posY += vitesseChute;
+    }
+}
+
+int main() {
+    // Déclaration des fruits
+    struct Fruit pastèque = {"Pastèque", TAILLE_PASTEQUE, 0, 0, 0}; 
+    struct Fruit ananas = {"Ananas", TAILLE_ANANAS, 0, 0, 0};
+    struct Fruit orange = {"Orange", TAILLE_ORANGE, 0, 0, 0};
+    struct Fruit pomme = {"Pomme", TAILLE_POMME, 0, 0, 0};
+    struct Fruit peche = {"Pêche", TAILLE_PEACHE, 0, 0, 0};
+    struct Fruit kiwi = {"Kiwi", TAILLE_KIWI, 0, 0, 0};
+    struct Fruit fraise = {"Fraise", TAILLE_FRAISE, 0, 0, 0};
+
+    // Définition de la taille de la pastèque
+    const int taillePastèqueX = 10; // Largeur de la pastèque
+    const int taillePastèqueY = 10; // Hauteur de la pastèque
+
+    // Initialisation de la position initiale des fruits
+    positionInitiale(&pastèque, taillePastèqueX, taillePastèqueY);
+    positionInitiale(&ananas, taillePastèqueX, taillePastèqueY);
+    positionInitiale(&orange, taillePastèqueX, taillePastèqueY);
+    positionInitiale(&pomme, taillePastèqueX, taillePastèqueY);
+    positionInitiale(&peche, taillePastèqueX, taillePastèqueY);
+    positionInitiale(&kiwi, taillePastèqueX, taillePastèqueY);
+    positionInitiale(&fraise, taillePastèqueX, taillePastèqueY);
+
+    // Simuler la chute des fruits
+    int vitesseChute = 1; // Vitesse de chute des fruits 
+    pastèque.chute = 1;   // Déclencher la chute de la pastèque
+    chuteFruit(&pastèque, vitesseChute);
+    ananas.chute = 1;     // Déclencher la chute de l'ananas
+    chuteFruit(&ananas, vitesseChute);
+    orange.chute = 1;     // Déclencher la chute de l'orange
+    chuteFruit(&orange, vitesseChute);
+    pomme.chute = 1;      // Déclencher la chute de la pomme
+    chuteFruit(&pomme, vitesseChute);
+    peche.chute = 1;      // Déclencher la chute de la pêche
+    chuteFruit(&peche, vitesseChute);
+    kiwi.chute = 1;       // Déclencher la chute du kiwi
+    chuteFruit(&kiwi, vitesseChute);
+    fraise.chute = 1;     // Déclencher la chute de la fraise
+    chuteFruit(&fraise, vitesseChute);
+
+    // Affichage des positions des fruits
+    printf("Position de la pastèque : (%d, %d)\n", pastèque.posX, pastèque.posY);
+    printf("Position de l'ananas : (%d, %d)\n", ananas.posX, ananas.posY);
+    printf("Position de l'orange : (%d, %d)\n", orange.posX, orange.posY);
+    printf("Position de la pomme : (%d, %d)\n", pomme.posX, pomme.posY);
+    printf("Position de la pêche : (%d, %d)\n", peche.posX, peche.posY);
+    printf("Position du kiwi : (%d, %d)\n", kiwi.posX, kiwi.posY);
+    printf("Position de la fraise : (%d, %d)\n", fraise.posX, fraise.posY);
+
+    return 0;
+}
