@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+// Structure pour représenter un fruit
+struct Fruit {
+    char nom[20];  // Nom du fruit
+    int taille;    // Taille du fruit en unités arbitraires
+    int posX;      // Position en X
+    int posY;      // Position en Y
+    int chute;     // Indique si le fruit est en train de chuter (1 pour vrai, 0 pour faux)
+};
+
+// Tailles prédéfinies pour chaque type de fruit 
+const int TAILLE_KIWI = 3;
+const int TAILLE_FRAISE = 2;
+
+// Fonction pour initialiser la position initiale des fruits en haut au milieu de la pastèque
+void positionInitiale(struct Fruit *fruit, int taillePastèqueX, int taillePastèqueY) {
+    fruit->posX = rand() % taillePastèqueX; // Position en X aléatoire
+    fruit->posY = rand() % taillePastèqueY; // Position en Y aléatoire
+}
+
+// Fonction pour simuler la chute d'un fruit
+void chuteFruit(struct Fruit *fruit, int vitesseChute) {
+    if (fruit->chute) {
+        // Déplacer le fruit vers le bas en fonction de la vitesse de chute
+        fruit->posY += vitesseChute;
+    }
+}
+
+int main() {
+    // Initialisation de la graine pour la génération de nombres aléatoires
+    srand(time(NULL));
+
+    // Déclaration des fruits
+    struct Fruit kiwi = {"Kiwi", TAILLE_KIWI, 0, 0, 0};
+    struct Fruit fraise = {"Fraise", TAILLE_FRAISE, 0, 0, 0};
+
+    // Définition de la taille de la pastèque
+    const int taillePastèqueX = 10; // Largeur de la pastèque
+    const int taillePastèqueY = 10; // Hauteur de la pastèque
+
+    // Initialisation de la position initiale aléatoire des fruits
+    positionInitiale(&kiwi, taillePastèqueX, taillePastèqueY);
+    positionInitiale(&fraise, taillePastèqueX, taillePastèqueY);
+
+    // Simuler la chute des fruits
+    int vitesseChute = 1; // Vitesse de chute des fruits 
+    kiwi.chute = 1;       // Déclencher la chute du kiwi
+    chuteFruit(&kiwi, vitesseChute);
+    fraise.chute = 1;     // Déclencher la chute de la fraise
+    chuteFruit(&fraise, vitesseChute);
+
+    // Affichage des positions des fruits
+    printf("Position du kiwi : (%d, %d)\n", kiwi.posX, kiwi.posY);
+    printf("Position de la fraise : (%d, %d)\n", fraise.posX, fraise.posY);
+
+    return 0;
+}
