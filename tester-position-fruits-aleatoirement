@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+// cette partie de code c'est juste pour moi verifier si je fait positionnement des fruits change leurs positionement avenc de le tester 
+//sur  la partie graphique 
+// Structure pour représenter un fruit
+struct Fruit {
+    char nom[20];  // Nom du fruit
+    int taille;    // Taille du fruit en unités arbitraires
+    int posX;      // Position en X
+    int posY;      // Position en Y
+    int chute;     // Indique si le fruit est en train de chuter (1 pour vrai, 0 pour faux)
+    int largeur;   // Indique le pixel rectangle sa largeur
+    int hauteur;   // Indique le pixel rectangle sa hauteur
+};
+
+// Tailles prédéfinies pour chaque type de fruit 
+const int TAILLE_KIWI = 4;   // Taille du kiwi (2 carrés)
+const int TAILLE_FRAISE = 2; // Taille de la fraise (1 carré)
+
+// Fonction pour proposer les positions aléatoirement
+void positionInitialeAleatoire(struct Fruit *fruit, int taillePastèqueX, int taillePastèqueY, int largeur, int hauteur) {
+    fruit->posX = rand() % taillePastèqueX; // Position en X aléatoire
+    fruit->posY = rand() % taillePastèqueY; // Position en Y aléatoire
+    fruit->largeur = largeur;               // Définition de la largeur
+    fruit->hauteur = hauteur;               // Définition de la hauteur
+}
+
+// Fonction pour simuler la chute d'un fruit
+void chuteFruit(struct Fruit *fruit, int vitesseChute) {
+    if (fruit->chute) {
+        // Déplacer le fruit vers le bas en fonction de la vitesse de chute
+        fruit->posY += vitesseChute;
+    }
+}
+
+int main() {
+    // Initialisation de la graine pour la génération de nombres aléatoires
+    srand(time(NULL));
+
+    // Déclaration des fruits
+    struct Fruit kiwi = {"Kiwi", TAILLE_KIWI, 0, 0, 0, 100, 100};     // Kiwi avec une taille de 2 carrés
+    struct Fruit fraise = {"Fraise", TAILLE_FRAISE, 0, 0, 0, 100, 100}; // Fraise avec une taille de 1 carré
+
+    // Définition de la taille de la pastèque
+    const int taillePastèqueX = 10; // Largeur de la pastèque
+    const int taillePastèqueY = 10; // Hauteur de la pastèque
+    const int largeur = 100;        // Largeur d'un carré
+    const int hauteur = 100;        // Hauteur d'un carré
+
+    // Initialisation de la position initiale aléatoire des fruits
+    //positionInitialeAleatoire(&kiwi, taillePastèqueX, taillePastèqueY, largeur * TAILLE_KIWI, hauteur * TAILLE_KIWI);
+    //positionInitialeAleatoire(&fraise, taillePastèqueX, taillePastèqueY, largeur * TAILLE_FRAISE, hauteur * TAILLE_FRAISE);
+
+    // Simuler la chute des fruits
+    int vitesseChute = 1; // Vitesse de chute des fruits 
+    kiwi.chute = 1;       // Déclencher la chute du kiwi
+    chuteFruit(&kiwi, vitesseChute);
+    fraise.chute = 1;     // Déclencher la chute de la fraise
+    chuteFruit(&fraise, vitesseChute);
+
+    // Affichage des positions des fruits
+    printf("Position du kiwi : (%d, %d, %d, %d)\n", kiwi.posX, kiwi.posY, largeur * TAILLE_KIWI, hauteur * TAILLE_KIWI);
+    printf("Position de la fraise : (%d, %d, %d, %d)\n", fraise.posX, fraise.posY, largeur * TAILLE_FRAISE, hauteur * TAILLE_FRAISE);
+
+    return 0;
+}
