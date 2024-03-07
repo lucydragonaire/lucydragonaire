@@ -14,6 +14,11 @@ struct Fruit {
 };
 
 // Tailles prédéfinies pour chaque type de fruit 
+const int TAILLE_PASTEQUE = 14;
+const int TAILLE_ANANAS = 12;
+const int TAILLE_ORANGE = 10;
+const int TAILLE_POMME = 8;
+const int TAILLE_PEACHE = 6;
 const int TAILLE_KIWI = 4;   // Taille du kiwi (2 carrés)
 const int TAILLE_FRAISE = 2; // Taille de la fraise (1 carré)
 
@@ -46,30 +51,52 @@ int main() {
     srand(time(NULL));
 
     // Déclaration des fruits
+    struct Fruit pastèque = {"Pastèque", TAILLE_PASTEQUE, 0, 0, 0100,100}}; 
+    struct Fruit ananas = {"Ananas", TAILLE_ANANAS, 0, 0, 0100,100}};
+    struct Fruit orange = {"Orange", TAILLE_ORANGE, 0, 0, 0100,100}};
+    struct Fruit pomme = {"Pomme", TAILLE_POMME, 0, 0, 0,100,100};
+    struct Fruit peche = {"Pêche", TAILLE_PEACHE, 0, 0, 0,100,100};
     struct Fruit kiwi = {"Kiwi", TAILLE_KIWI, 0, 0, 0, 100, 100};     // Kiwi avec une taille de 2 carrés
     struct Fruit fraise = {"Fraise", TAILLE_FRAISE, 0, 0, 0, 100, 100}; // Fraise avec une taille de 1 carré
 
     // Définition de la taille de la pastèque
-    const int taillePastèqueX = 10; // Largeur de la pastèque
-    const int taillePastèqueY = 10; // Hauteur de la pastèque
+    const int taillePastèqueX = 14; // Largeur de la pastèque
+    const int taillePastèqueY = 14; // Hauteur de la pastèque
     const int largeur = 100;        // Largeur d'un carré
     const int hauteur = 100;        // Hauteur d'un carré
-// Initialisation de la position initiale aléatoire des fruits
+// Initialisation de la position initiale  des fruits
+    positionInitiale(&pastèque, taillePastèqueX, taillePastèqueY largeur * TAILLE_KIWI, hauteur * TAILLE_PASTEQUE);
+    positionInitiale(&ananas, taillePastèqueX, taillePastèqueY largeur * TAILLE_KIWI, hauteur * TAILLE_) ;
+    positionInitiale(&orange, taillePastèqueX, taillePastèqueY largeur * TAILLE_KIWI, hauteur *TAILLE_ORANGE );
+    positionInitiale(&pomme, taillePastèqueX, taillePastèqueY largeur * TAILLE_KIWI, hauteur * TAILLE_POMME );
+    positionInitiale(&peche, taillePastèqueX, taillePastèqueY largeur * TAILLE_KIWI, hauteur *TAILLE_PEACHE )  ;
     positionInitiale(&kiwi, taillePastèqueX, taillePastèqueY, largeur * TAILLE_KIWI, hauteur * TAILLE_KIWI);
     positionInitiale(&fraise, taillePastèqueX, taillePastèqueY, largeur * TAILLE_FRAISE, hauteur * TAILLE_FRAISE);
 
-    // Initialisation de la position initiale aléatoire des fruits
-    //positionInitialeAleatoire(&kiwi, taillePastèqueX, taillePastèqueY, largeur * TAILLE_KIWI, hauteur * TAILLE_KIWI);
-    //positionInitialeAleatoire(&fraise, taillePastèqueX, taillePastèqueY, largeur * TAILLE_FRAISE, hauteur * TAILLE_FRAISE);
 
     // Simuler la chute des fruits
     int vitesseChute = 1; // Vitesse de chute des fruits 
+    pastèque.chute = 1;   // Déclencher la chute de la pastèque
+    chuteFruit(&pastèque, vitesseChute);
+    ananas.chute = 1;     // Déclencher la chute de l'ananas
+    chuteFruit(&ananas, vitesseChute);
+    orange.chute = 1;     // Déclencher la chute de l'orange
+    chuteFruit(&orange, vitesseChute);
+    pomme.chute = 1;      // Déclencher la chute de la pomme
+    chuteFruit(&pomme, vitesseChute);
+    peche.chute = 1;      // Déclencher la chute de la pêche
+    chuteFruit(&peche, vitesseChute);
     kiwi.chute = 1;       // Déclencher la chute du kiwi
     chuteFruit(&kiwi, vitesseChute);
     fraise.chute = 1;     // Déclencher la chute de la fraise
     chuteFruit(&fraise, vitesseChute);
 
     // Affichage des positions des fruits
+    printf("Position de la pastèque : (%d, %d)\n", pastèque.posX, pastèque.posY, largeur * TAILLE_PASTEQUE, hauteur * TAILLE_PASTEQUE);
+    printf("Position de l'ananas : (%d, %d)\n", ananas.posX, ananas.posY, largeur * TAILLE_ANANAS, hauteur * TAILLE_ANANAS);
+    printf("Position de l'orange : (%d, %d)\n", orange.posX, orange.posY, largeur * TAILLE_ORANGE, hauteur * TAILLE_ORANGE);
+    printf("Position de la pomme : (%d, %d)\n", pomme.posX, pomme.posY, largeur * TAILLE_POMME, hauteur * TAILLE_POMME);
+    printf("Position de la pêche : (%d, %d)\n", peche.posX, peche.posY, largeur * TAILLE_PEACHE, hauteur * TAILLE_PEACHE);
     printf("Position du kiwi : (%d, %d, %d, %d)\n", kiwi.posX, kiwi.posY, largeur * TAILLE_KIWI, hauteur * TAILLE_KIWI);
     printf("Position de la fraise : (%d, %d, %d, %d)\n", fraise.posX, fraise.posY, largeur * TAILLE_FRAISE, hauteur * TAILLE_FRAISE);
 
