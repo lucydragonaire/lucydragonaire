@@ -1,0 +1,45 @@
+#include <stdio.h>
+
+// Structure pour représenter un fruit
+struct Fruit {
+    char nom[20];  // Nom du fruit
+    int taille;    // Taille du fruit en unités arbitraires
+    int posX;      // Position en X
+    int posY;      // Position en Y
+    int chute;     // Indique si le fruit est en train de chuter (1 pour vrai, 0 pour faux)
+    int largeur;   // Indique le pixel rectangle sa largeur
+    int hauteur;   // Indique le pixel rectangle sa hauteur
+};
+
+// Fonction pour simuler la chute d'un fruit
+void chuteFruit(struct Fruit *fruit, int vitesseChute, struct Fruit *autreFruit) {
+    if (fruit->chute) {
+        // Vérifier si la position en dessous du fruit est occupée par un autre fruit
+        while (autreFruit->posX == fruit->posX && autreFruit->posY == fruit->posY +1) {
+            // Déplacer le fruit vers le haut jusqu'à ce qu'il trouve une position libre
+            fruit->posY--;
+        }
+
+        // Déplacer le fruit vers le bas en fonction de la vitesse de chute
+        fruit->posY += vitesseChute;
+    }
+}
+
+int main() {
+    // Déclaration des fruits
+    struct Fruit kiwi = {"Kiwi", 4, 5, 1, 0, 40, 40};     // Kiwi avec une taille de 2 carrés, position (5, 1)
+    struct Fruit fraise = {"Fraise", 2, 5, 1, 0, 20, 20}; // Fraise avec une taille de 1 carré, position (5, 1)
+
+    // Simuler la chute des fruits
+    int vitesseChute = 1; // Vitesse de chute des fruits
+    kiwi.chute = 1;       // Déclencher la chute du kiwi
+    chuteFruit(&kiwi, vitesseChute, &fraise);
+    fraise.chute = 1;     // Déclencher la chute de la fraise
+    chuteFruit(&fraise, vitesseChute, &kiwi);
+
+    // Affichage des positions des fruits
+    printf("Position du kiwi : (%d, %d, %d, %d)\n", kiwi.posX, kiwi.posY, kiwi.largeur, kiwi.hauteur);
+    printf("Position de la fraise : (%d, %d, %d, %d)\n", fraise.posX, fraise.posY, fraise.largeur, fraise.hauteur);
+
+    return 0;
+}
