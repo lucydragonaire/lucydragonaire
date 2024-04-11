@@ -1,0 +1,176 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include "SDL2/SDL.h" // Inclure les en-têtes SDL
+
+#define VITESSE 5
+#define LARGEUR_ECRAN 800
+#define HAUTEUR_ECRAN 600
+
+// Structure pour représenter un fruit
+struct Fruit {
+    char nom[20];     // Nom du fruit
+    char couleur[20]; // Couleur du fruit
+    int taille;       // Taille du fruit en unités arbitraires
+    int posX;         // Position en X
+    int posY;         // Position en Y
+    int chute;        // Indique si le fruit est en train de chuter (1 pour vrai, 0 pour faux)
+    int largeur;      // Indique le pixel rectangle sa largeur
+    int hauteur;      // Indique le pixel rectangle sa hauteur
+};
+
+// Tailles prédéfinies pour chaque type de fruit
+const int TAILLE_PASTEQUE = 10;
+const int TAILLE_ANANAS = 8;
+const int TAILLE_ORANGE = 7;
+const int TAILLE_POMME = 6;
+const int TAILLE_PEACHE = 5;
+const int TAILLE_KIWI = 4;   // Taille du kiwi (2 carrés)
+const int TAILLE_FRAISE = 3; // Taille de la fraise (1 carré)
+
+// Fonction pour initialiser la position initiale des fruits en haut au milieu de la pastèque
+void positionInitiale(struct Fruit *fruit, int taillePastequeX, int taillePastequeY, int largeur, int hauteur) {
+    fruit->posX = taillePastequeX / 2; // Position en X au milieu de la pastèque
+    fruit->posY = 0;                    // Position en Y tout en haut de la pastèque
+    fruit->largeur = largeur;           // Définition de la largeur du fruit
+    fruit->hauteur = hauteur;           // Définition de la hauteur du fruit
+}
+
+// Fonction pour simuler la chute d'un fruit
+void chuteFruit(struct Fruit *fruit, int vitesschute) {
+    if (fruit->chute) {
+        // Déplacer le fruit vers le bas en fonction de la vitesse de chute
+        fruit->posY += vitesschute;
+    }
+}
+
+// Initialisation de la fenêtre SDL
+SDL_Window* initSDL() {
+    SDL_Window* window = NULL;
+
+    // Initialisation de SDL
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+        printf("Erreur lors de l'initialisation de SDL : %s\n", SDL_GetError());
+        return NULL;
+    }
+
+    // Création de la fenêtre
+    window = SDL_CreateWindow("Fruits", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, LARGEUR_ECRAN, HAUTEUR_ECRAN, SDL_WINDOW_SHOWN);
+    if (window == NULL) {
+        printf("Erreur lors de la création de la fenêtre SDL : %s\n", SDL_GetError());
+        SDL_Quit();
+        return NULL;
+    }
+
+    return window;
+}
+
+// Affichage d'un fruit dans la fenêtre SDL
+void afficherFruit(SDL_Renderer* renderer, struct Fruit* fruit) {
+    SDL_Rect fruitRect = { fruit->posX, fruit->posY, fruit->largeur, fruit->hauteur };
+
+    // Définir la couleur du fruit en fonction de sa couleur
+    if (strcmp(fruit->couleur, "rose") == 0) {
+        SDL_SetRenderDrawColor(renderer, 255, 192, 203, 255); // Rose
+    } else if (strcmp(fruit->couleur, "vert claire") == 0) {
+        SDL_SetRenderDrawColor(renderer, 144, 238, 144, 255); // Vert clair
+    } else if (strcmp(fruit->couleur, "Kaki") == 0) {
+        SDL_SetRenderDrawColor(renderer, 240, 230, 140, 255); // Kaki
+    } else if (strcmp(fruit->couleur, "rouge") == 0) {
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Rouge
+    } else if (strcmp(fruit->couleur, "orange") == 0) {
+        SDL_SetRenderDrawColor(renderer, 255, 165, 0, 255); // Orange
+    } else if (strcmp(fruit->couleur, "jaune") == 0) {
+        SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255); // Jaune
+    } else if (strcmp(fruit->couleur, "vert") == 0) {
+        SDL_SetRenderDrawColor(renderer, 0, 128, 0, 255); // Vert
+    } else {
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // Blanc (couleur par défaut)
+    }
+
+    // Remplir le rectangle avec la couleur du fruit
+    SDL_RenderFillRect(renderer, &fruitRect);
+}
+
+// Affichage de tous les fruits dans la fenêtre SDL
+void afficherFruits(SDL_Renderer* renderer, struct Fruit* fruits, int nbFruits) {
+    for (int i = 0; i < nbFruits; i++) {
+        afficherFruit(renderer, &fruits[i]);
+    }
+}
+
+int main() {
+    // Initialisation de la graine pour la génération de nombres aléatoires
+    srand(time(NULL));
+
+    // Initialisation de la fenêtre SDL
+    SDL_Window* window = initSDL();
+    if (window == NULL) {
+        return 1; // Quitter le programme avec code d'erreur
+    }
+
+    // Création du renderer
+    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    if (renderer == NULL) {
+        printf("Erreur lors de la création du renderer : %s\n", SDL_GetError());
+        SDL_DestroyWindow(window);
+        SDL_Quit();
+        return 1; // Quitter le programme avec code d'erreur
+    }
+
+    // Déclaration des fruits
+    struct Fruit fruits[7] = {
+        {"Pasteque", "vert", TAILLE_PASTEQUE, 0, 0, 0, 0, 0},
+        {"Ananas", "jaune", TAILLE_ANANAS, 0, 0, 0, 0, 0},
+        {"Orange", "orange", TAILLE_ORANGE, 0, 0, 0, 0, 0},
+        {"Pomme", "rouge", TAILLE_POMME, 0, 0, 0, 0, 0},
+        {"Pêche", "Kaki", TAILLE_PEACHE, 0, 0, 0, 0, 0},
+        {"Kiwi", "vert vlaire", TAILLE_KIWI, 0, 0, 0, 0, 0}, // Kiwi avec une taille de 2 carrés
+        {"Fraise", "rose", TAILLE_FRAISE, 0, 0, 0, 0, 0} // Fraise avec une taille de 1 carré
+    };
+
+    // Définition de la taille de la pastèque
+    const int taillePastequeX = 10; // Largeur de la pasteque
+    const int taillePastequeY = 10; // Hauteur de la pasteque
+    const int largeur = 10;         // Largeur d'un carré
+    const int hauteur = 10;         // Hauteur d'un carré
+
+    // Initialisation de la position initiale des fruits
+    for (int i = 0; i < 7; i++) {
+        positionInitiale(&fruits[i], taillePastequeX, taillePastequeY, largeur * fruits[i].taille, hauteur * fruits[i].taille);
+    }
+
+    // Simuler la chute des fruits
+    for (int i = 0; i < 7; i++) {
+        fruits[i].chute = 1;
+        chuteFruit(&fruits[i], VITESSE);
+    }
+
+    // Boucle principale
+    int running = 1;
+    while (running) {
+        SDL_Event event;
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) {
+                running = 0;
+            }
+        }
+
+        // Effacer l'écran
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        SDL_RenderClear(renderer);
+
+        // Afficher les fruits
+        afficherFruits(renderer, fruits, 7);
+
+        // Mettre à jour l'affichage
+        SDL_RenderPresent(renderer);
+    }
+
+    // Libération des ressources SDL
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+
+    return 0;
+}
